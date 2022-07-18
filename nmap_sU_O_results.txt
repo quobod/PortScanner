@@ -1,0 +1,219 @@
+map scan report for \_gateway (192.168.1.1)
+Host is up (0.0052s latency).
+Not shown: 993 closed ports
+PORT STATE SERVICE
+23/udp open|filtered telnet
+53/udp open domain
+67/udp open|filtered dhcps
+161/udp open|filtered snmp
+162/udp open|filtered snmptrap
+1900/udp open|filtered upnp
+5353/udp open|filtered zeroconf
+MAC Address: DC:EF:09:D3:11:88 (Netgear)
+Warning: OSScan results may be unreliable because we could not find at least 1 open and 1 closed port
+Device type: general purpose|WAP
+Running: Linux 2.4.X|2.6.X
+OS CPE: cpe:/o:linux:linux_kernel:2.4.20 cpe:/o:linux:linux_kernel:2.4.35s cpe:/o:linux:linux_kernel:2.6.24
+OS details: Linux 2.4.20-grsec, Linux 2.4.21, Linux 2.4.26 (Slackware 10.0.0), DD-WRT (Linux 2.4.35s), Linux 2.6.24
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.10
+Host is up (0.0054s latency).
+All 1000 scanned ports on 192.168.1.10 are open|filtered
+MAC Address: D8:9E:F3:96:38:24 (Dell)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.12
+Host is up (0.018s latency).
+Not shown: 999 open|filtered ports
+PORT STATE SERVICE
+137/udp open netbios-ns
+MAC Address: D8:9E:F3:96:75:EA (Dell)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.21
+Host is up (0.020s latency).
+Not shown: 999 closed ports
+PORT STATE SERVICE
+5353/udp open|filtered zeroconf
+MAC Address: 78:36:90:D2:54:DD (Yulong Computer Telecommunication Scientific (Shenzhen))
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.22
+Host is up (0.011s latency).
+Not shown: 995 closed ports
+PORT STATE SERVICE
+7/udp open|filtered echo
+9/udp open|filtered discard
+1900/udp open|filtered upnp
+5353/udp open|filtered zeroconf
+48489/udp open|filtered unknown
+MAC Address: A0:6A:44:F2:7B:71 (Vizio)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.23
+Host is up (0.025s latency).
+Not shown: 999 closed ports
+PORT STATE SERVICE
+67/udp open|filtered dhcps
+MAC Address: 02:0F:B5:C0:84:EF (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.25
+Host is up (0.048s latency).
+All 1000 scanned ports on 192.168.1.25 are closed
+MAC Address: FC:D4:36:90:CF:F1 (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.26
+Host is up (0.12s latency).
+Not shown: 996 closed ports
+PORT STATE SERVICE
+781/udp open|filtered hp-collector
+16829/udp open|filtered unknown
+17006/udp open|filtered unknown
+40732/udp open|filtered unknown
+MAC Address: BC:3F:4E:71:3C:44 (Teleepoch)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.27
+Host is up (0.028s latency).
+Not shown: 998 closed ports
+PORT STATE SERVICE
+5353/udp open|filtered zeroconf
+23679/udp open|filtered unknown
+MAC Address: 80:6D:71:D4:8F:0F (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.32
+Host is up (0.083s latency).
+All 1000 scanned ports on 192.168.1.32 are closed
+MAC Address: 0C:EC:84:FE:B3:BA (Shenzhen Tinno Mobile Technology)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.37
+Host is up (0.011s latency).
+Not shown: 992 closed ports
+PORT STATE SERVICE
+464/udp open|filtered kpasswd5
+1900/udp open|filtered upnp
+2051/udp open|filtered epnsdp
+5353/udp open|filtered zeroconf
+8001/udp open|filtered vcom-tunnel
+17638/udp open|filtered unknown
+28493/udp open|filtered unknown
+49212/udp open|filtered unknown
+MAC Address: C0:97:27:00:6D:A6 (Samsung Electro-mechanics(thailand))
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.38
+Host is up (0.073s latency).
+All 1000 scanned ports on 192.168.1.38 are closed
+MAC Address: F8:1F:32:27:87:95 (Motorola Mobility, a Lenovo Company)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.45
+Host is up (0.014s latency).
+Not shown: 999 open|filtered ports
+PORT STATE SERVICE
+137/udp open netbios-ns
+MAC Address: D8:9E:F3:96:5C:F4 (Dell)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.66
+Host is up (0.11s latency).
+All 1000 scanned ports on 192.168.1.66 are closed
+MAC Address: 42:3B:A0:EB:5D:41 (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.68
+Host is up (0.0040s latency).
+All 1000 scanned ports on 192.168.1.68 are open|filtered
+MAC Address: D8:9E:F3:96:39:B0 (Dell)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.69
+Host is up (0.13s latency).
+All 1000 scanned ports on 192.168.1.69 are closed
+MAC Address: 2A:B3:9B:8E:29:E0 (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.71
+Host is up (0.0089s latency).
+Not shown: 998 open|filtered ports
+PORT STATE SERVICE
+137/udp open netbios-ns
+443/udp closed https
+MAC Address: D8:9E:F3:96:4A:52 (Dell)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.75
+Host is up (0.093s latency).
+Not shown: 997 closed ports
+PORT STATE SERVICE
+5353/udp open|filtered zeroconf
+16697/udp open|filtered unknown
+40866/udp open|filtered unknown
+MAC Address: FE:11:7C:56:DD:D3 (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.79
+Host is up (0.14s latency).
+Not shown: 999 closed ports
+PORT STATE SERVICE
+445/udp open|filtered microsoft-ds
+MAC Address: 8A:D8:2A:69:41:10 (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.99
+Host is up (0.15s latency).
+Not shown: 999 closed ports
+PORT STATE SERVICE
+5353/udp open|filtered zeroconf
+MAC Address: 3A:C4:DF:13:13:75 (Unknown)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.112
+Host is up (0.0044s latency).
+All 1000 scanned ports on 192.168.1.112 are open|filtered
+MAC Address: D8:9E:F3:96:39:69 (Dell)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for 192.168.1.128
+Host is up (0.0042s latency).
+All 1000 scanned ports on 192.168.1.128 are open|filtered
+MAC Address: D8:9E:F3:96:4B:11 (Dell)
+Too many fingerprints match this host to give specific OS details
+Network Distance: 1 hop
+
+Nmap scan report for queueb (192.168.1.129)
+Host is up (0.00012s latency).
+Not shown: 998 closed ports
+PORT STATE SERVICE
+631/udp open|filtered ipp
+5353/udp open|filtered zeroconf
+Too many fingerprints match this host to give specific OS details
+Network Distance: 0 hops
+
+OS detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 256 IP addresses (23 hosts up) scanned in 3051.38 seconds

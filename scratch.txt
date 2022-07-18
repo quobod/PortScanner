@@ -1,0 +1,115 @@
+#! /usr/bin/python3
+
+import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.settimeout(10)
+port = 22
+s.connect(('127.0.0.1', port))
+s.send(b'test')
+banner = s.recv(1024)
+print(banner)
+s.close()
+
+----------------------
+
+import socket
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.settimeout(10)
+for port in range(1,26):
+    print("[+]Attempting to connect to : " + str(port))
+    try:
+      s.connect(('127.0.0.1', port))
+      s.send(b'test')
+      banner = s.recv(1024)
+      s.close()
+      if banner:
+        print("Port " + port + "is Open: " + banner)
+    except: print("[+]Port " + str(port) + " is closed")  
+    
+-----------------------
+
+try:
+    #if this is the only line you expect to fail, then it is the only line in the try
+    s.connect(('127.0.0.1', port))
+except ConnectionError: 
+    #if a ConnectionError is the only one you expect, it is the only one you catch
+    print("[+]Port " + str(port) + " is closed")
+else: #if there was no error
+    s.send(b'test')
+    banner = s.recv(1024)
+    s.close()
+    if banner:
+        print("Port " + port + "is Open: " + banner)
+-----------------------
+
+if filtered_count == 2:
+    host = filtered[0]
+    sport = int(filtered[1])
+    chp(host, sport, None)
+
+if filtered_count == 3:
+    host = filtered[0]
+    sport = int(filtered[1])
+    eport = int(filtered[2])
+    chp(host, sport, eport)
+------------------------
+
+
+def test_function(arg1, arg2, name="test function name"):
+    logging.info("Thread %s: starting", name)
+    print("Arg 1: {}\tArg 2: {}".format(arg1, arg2))
+
+
+def thread_test(test_function):
+    if filtered_count == 2:
+        arg1 = filtered[0]
+        arg2 = filtered[1]
+
+        format = "%(asctime)s: %(message)s"
+        logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
+
+        logging.info("Main    : before creating thread")
+
+        t = threading.Thread(
+            target=test_function,
+            args=(
+                arg1,
+                arg2,
+            ),
+        )
+
+        logging.info("Main    : before running thread")
+
+        t.start()
+
+        logging.info("Main    : all done")
+
+    if filtered_count == 3:
+        arg1 = filtered[0]
+        arg2 = filtered[1]
+        arg3 = filtered[2]
+
+        format = "%(asctime)s: %(message)s"
+        logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
+
+        logging.info("Main    : before creating thread")
+
+        t = threading.Thread(
+            target=test_function,
+            args=(
+                arg1,
+                arg2,
+                arg3,
+            ),
+            daemon=True,
+        )
+
+        logging.info("Main    : before running thread")
+
+        t.start()
+        t.join()
+
+        logging.info("Main    : all done")
+
+
+# thread_test(test_function)

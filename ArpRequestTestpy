@@ -1,0 +1,49 @@
+#! /usr/bin/python3
+
+from scapy.all import *
+import re
+from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
+from custom_modules.ArgumentManager import filtered, filtered_count
+from custom_modules.PatternConstants import IP4
+
+
+network_target = "192.168.1.1/24"
+
+ip = IP()
+arp = ARP(pdst=network_target)
+ether = Ether(dst="ff:ff:ff:ff:ff:ff")
+packet = ether / arp
+
+result = srp(packet, timeout=3)[0]
+
+clients = []
+
+for sent, received in result:
+    received.show_summary = True
+    ip_address = None
+    my_dict = {}
+
+    _search = re.search(IP4, received.summary())
+
+    if not _search == None:
+        my_dict.update(
+            {
+                "ip": _search.group(),
+                "mac": received.src,
+            }
+        )
+    else:
+        my_dict.update(
+            {
+                "mac_src": received.src,
+                "mac_dst": received.dst,
+            }
+        )
+
+    clients.append(my_dict)
+
+print("\n\nAvailable devices in the network:")
+print("IP" + "  " * 18 + "MAC\n" + "-" * 55)
+
+for client in clients:
+    print("{:16}                      {}".format(client["ip"], client["mac"]))
