@@ -37,7 +37,7 @@ parser.add_argument(
 parser.add_argument(
     "-t",
     "--timeout",
-    type=int,
+    type=float,
     help="Set connection time out in seconds - e.g. 0.2 or 10.",
 )
 
