@@ -37,7 +37,7 @@ parser.add_argument(
     "-a",
     "--addr",
     help="The target host's IP address",
-    default="192.168.1.1",
+    default=host,
 )
 
 # connection timeout
