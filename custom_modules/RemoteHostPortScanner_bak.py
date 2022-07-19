@@ -55,7 +55,8 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-if args.quiet:
+
+def run_quiet_mode(cus, args):
     msg = "Run program silently"
     cmsg = cus(177, 200, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -76,7 +77,9 @@ if args.quiet:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
     else:
         print("Scanning host {}'s port {}".format(host, sport))
-elif args.verbose >= 2:
+
+
+def run_verbose_level_2(cus, args):
     msg = "Run program with level {} verbosity".format(args.verbose)
     cmsg = cus(177, 230, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -97,7 +100,9 @@ elif args.verbose >= 2:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
     else:
         print("Scanning host {}'s port {}".format(host, sport))
-elif args.verbose >= 1:
+
+
+def run_verbose_level_1(cus, args):
     msg = "Run program with level {} verbosity".format(args.verbose)
     cmsg = cus(177, 240, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -118,7 +123,9 @@ elif args.verbose >= 1:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
     else:
         print("Scanning host {}'s port {}".format(host, sport))
-else:
+
+
+def run_default_mode(cus, args):
     msg = "Run program with default config"
     cmsg = cus(177, 200, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -139,3 +146,13 @@ else:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
     else:
         print("Scanning host {}'s port {}".format(host, sport))
+
+
+if args.quiet:
+    run_quiet_mode(cus, args)
+elif args.verbose >= 2:
+    run_verbose_level_2(cus, args)
+elif args.verbose >= 1:
+    run_verbose_level_1(cus, args)
+else:
+    run_default_mode(cus, args)
