@@ -52,8 +52,7 @@ parser.add_argument(
 parser.add_argument(
     "-p",
     "--ports",
-    help="Select which port or range of ports to scan; e.g. -p 22 or -p 1-1024. Defaults from 1 to 65,534",
-    default="{}-{}".format(sport, eport),
+    help="Select which port or range of ports to scan; e.g. -p 22 or -p 1-1024.",
 )
 
 # parse arguments
