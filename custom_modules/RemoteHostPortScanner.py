@@ -18,10 +18,14 @@ parser = argparse.ArgumentParser(description="Remote host port scanner")
 
 group = parser.add_mutually_exclusive_group()
 
-# group arguments
+""" group arguments """
+
+# verbosity level
 group.add_argument(
     "-v", "--verbose", help="Increase output verbosity", action="count", default=0
 )
+
+# run program silently
 group.add_argument(
     "-q", "--quiet", help="Silently run the program", action="store_true"
 )
