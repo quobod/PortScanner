@@ -15,7 +15,7 @@ ports = range(sport, eport)
 host = "192.168.1.1"
 
 parser = argparse.ArgumentParser(
-    description="Remote host port scanner. This program scans the give port(s) of the given host"
+    description="Remote host port scanner. This program scans the given port(s) of the given host"
 )
 
 group = parser.add_mutually_exclusive_group()
