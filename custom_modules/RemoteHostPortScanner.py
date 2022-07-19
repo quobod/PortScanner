@@ -26,7 +26,9 @@ group.add_argument(
     "-q", "--quiet", help="Silently run the program", action="store_true"
 )
 
-# positional arguments
+""" positional arguments """
+
+# host address
 parser.add_argument(
     "-a",
     "--addr",
@@ -34,6 +36,7 @@ parser.add_argument(
     default="192.168.1.1",
 )
 
+# connection timeout
 parser.add_argument(
     "-t",
     "--timeout",
@@ -41,6 +44,7 @@ parser.add_argument(
     help="Set connection time out in seconds - e.g. 0.2 or 10.",
 )
 
+# port or port range
 parser.add_argument(
     "-p",
     "--ports",
@@ -48,6 +52,7 @@ parser.add_argument(
     default="{}-{}".format(sport, eport),
 )
 
+# parse arguments
 args = parser.parse_args()
 
 # Quiet mode
@@ -134,6 +139,8 @@ elif args.verbose >= 1:
     else:
         print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, True, timeout)
+
+# Default mode run silently
 else:
     msg = "Run program with default config"
     cmsg = cus(177, 200, 177, msg)
