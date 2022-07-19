@@ -14,7 +14,9 @@ eport = 65534
 ports = range(sport, eport)
 host = "192.168.1.1"
 
-parser = argparse.ArgumentParser(description="Remote host port scanner")
+parser = argparse.ArgumentParser(
+    description="Remote host port scanner. This program scans the give port(s) of the given host"
+)
 
 group = parser.add_mutually_exclusive_group()
 
@@ -36,7 +38,7 @@ group.add_argument(
 parser.add_argument(
     "-a",
     "--addr",
-    help="The target host's IP address, defaults to 192.168.1.1",
+    help="The target host's IP address; e.g. -a 110.2.77.83. Defaults to 192.168.1.1",
     default=host,
 )
 
@@ -45,7 +47,7 @@ parser.add_argument(
     "-t",
     "--timeout",
     type=float,
-    help="Set connection time out in seconds - e.g. 0.2 or 10.",
+    help="Set connection time out in seconds; e.g. -t 0.2 or -t 10.",
 )
 
 # port or port range
