@@ -36,15 +36,9 @@ parser.add_argument(
 
 parser.add_argument(
     "-t",
-    "--type",
-    help="Which protocol type. Options TCP or UDP, defaults to TCP.",
-    choices=[
-        "t",
-        "tcp",
-        "u",
-        "udp",
-    ],
-    default="t",
+    "--timeout",
+    type=int,
+    help="Set connection time out in seconds - e.g. 0.2 or 10.",
 )
 
 parser.add_argument(
@@ -65,6 +59,9 @@ if args.quiet:
     if args.addr:
         host = args.addr
 
+    if args.timeout:
+        timeout = args.timeout
+
     if args.ports:
         if "-" in args.ports:
             ports_split = args.ports.split("-")
@@ -76,11 +73,11 @@ if args.quiet:
 
     if port_range:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
-        chp(host, sport, eport, False)
+        chp(host, sport, eport, False, timeout)
 
     else:
         print("Scanning host {}'s port {}".format(host, sport))
-        chp(host, sport, None, False)
+        chp(host, sport, None, False, timeout)
 
 # Level 2 verbose mode
 elif args.verbose >= 2:
@@ -91,6 +88,9 @@ elif args.verbose >= 2:
     if args.addr:
         host = args.addr
 
+    if args.timeout:
+        timeout = args.timeout
+
     if args.ports:
         if "-" in args.ports:
             ports_split = args.ports.split("-")
@@ -102,10 +102,10 @@ elif args.verbose >= 2:
 
     if port_range:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
-        chp(host, sport, eport, True)
+        chp(host, sport, eport, True, timeout)
     else:
         print("Scanning host {}'s port {}".format(host, sport))
-        chp(host, sport, None, True)
+        chp(host, sport, None, True, timeout)
 
 # Level 1 verbose mode
 elif args.verbose >= 1:
@@ -116,6 +116,9 @@ elif args.verbose >= 1:
     if args.addr:
         host = args.addr
 
+    if args.timeout:
+        timeout = args.timeout
+
     if args.ports:
         if "-" in args.ports:
             ports_split = args.ports.split("-")
@@ -127,10 +130,10 @@ elif args.verbose >= 1:
 
     if port_range:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
-        chp(host, sport, eport, True)
+        chp(host, sport, eport, True, timeout)
     else:
         print("Scanning host {}'s port {}".format(host, sport))
-        chp(host, sport, None, True)
+        chp(host, sport, None, True, timeout)
 else:
     msg = "Run program with default config"
     cmsg = cus(177, 200, 177, msg)
@@ -139,6 +142,9 @@ else:
     if args.addr:
         host = args.addr
 
+    if args.timeout:
+        timeout = args.timeout
+
     if args.ports:
         if "-" in args.ports:
             ports_split = args.ports.split("-")
@@ -150,7 +156,7 @@ else:
 
     if port_range:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
-        chp(host, sport, eport, False)
+        chp(host, sport, eport, False, timeout)
     else:
         print("Scanning host {}'s port {}".format(host, sport))
-        chp(host, sport, None, False)
+        chp(host, sport, None, False, timeout)
