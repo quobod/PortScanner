@@ -79,7 +79,7 @@ def run_quiet_mode(cus, args):
         print("Scanning host {}'s port {}".format(host, sport))
 
 
-def run_verbose_level_2(cus, args):
+def run_verbose_level_2_mode(cus, args):
     msg = "Run program with level {} verbosity".format(args.verbose)
     cmsg = cus(177, 230, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -102,7 +102,7 @@ def run_verbose_level_2(cus, args):
         print("Scanning host {}'s port {}".format(host, sport))
 
 
-def run_verbose_level_1(cus, args):
+def run_verbose_level_1_mode(cus, args):
     msg = "Run program with level {} verbosity".format(args.verbose)
     cmsg = cus(177, 240, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -151,8 +151,8 @@ def run_default_mode(cus, args):
 if args.quiet:
     run_quiet_mode(cus, args)
 elif args.verbose >= 2:
-    run_verbose_level_2(cus, args)
+    run_verbose_level_2_mode(cus, args)
 elif args.verbose >= 1:
-    run_verbose_level_1(cus, args)
+    run_verbose_level_1_mode(cus, args)
 else:
     run_default_mode(cus, args)
