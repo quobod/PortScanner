@@ -36,7 +36,7 @@ group.add_argument(
 parser.add_argument(
     "-a",
     "--addr",
-    help="The host IP address",
+    help="The target host's IP address",
     default="192.168.1.1",
 )
 
