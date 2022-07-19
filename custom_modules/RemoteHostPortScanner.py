@@ -58,8 +58,8 @@ parser.add_argument(
 # parse arguments
 args = parser.parse_args()
 
-# Quiet mode
-if args.quiet:
+
+def run_quiet_mode(cus, args):
     msg = "Run program silently"
     cmsg = cus(177, 200, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -68,6 +68,8 @@ if args.quiet:
         host = args.addr
 
     if args.timeout:
+        global timeout
+
         timeout = args.timeout
 
     if args.ports:
@@ -87,8 +89,8 @@ if args.quiet:
         print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, False, timeout)
 
-# Level 2 verbose mode
-elif args.verbose >= 2:
+
+def run_verbose_level_2_mode(cus, args):
     msg = "Running program with level {} verbosity".format(args.verbose)
     cmsg = cus(177, 230, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -97,6 +99,8 @@ elif args.verbose >= 2:
         host = args.addr
 
     if args.timeout:
+        global timeout
+
         timeout = args.timeout
 
     if args.ports:
@@ -115,8 +119,8 @@ elif args.verbose >= 2:
         print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, True, timeout)
 
-# Level 1 verbose mode
-elif args.verbose >= 1:
+
+def run_verbose_level_1_mode(cus, args):
     msg = "Running program with level {} verbosity".format(args.verbose)
     cmsg = cus(177, 240, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -143,8 +147,8 @@ elif args.verbose >= 1:
         print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, True, timeout)
 
-# Default mode run silently
-else:
+
+def run_default_mode(cus, args):
     msg = "Run program with default config"
     cmsg = cus(177, 200, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -153,6 +157,8 @@ else:
         host = args.addr
 
     if args.timeout:
+        global timeout
+
         timeout = args.timeout
 
     if args.ports:
@@ -170,3 +176,20 @@ else:
     else:
         print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, False, timeout)
+
+
+# Quiet mode
+if args.quiet:
+    run_quiet_mode(cus, args)
+
+# Level 2 verbose mode
+elif args.verbose >= 2:
+    run_verbose_level_2_mode(cus, args)
+
+# Level 1 verbose mode
+elif args.verbose >= 1:
+    run_verbose_level_1_mode(cus, args)
+
+# Default mode run silently
+else:
+    run_default_mode(cus, args)
