@@ -36,7 +36,7 @@ group.add_argument(
 parser.add_argument(
     "-a",
     "--addr",
-    help="The target host's IP address",
+    help="The target host's IP address, defaults to 192.168.1.1",
     default=host,
 )
 
@@ -81,7 +81,7 @@ if args.quiet:
             sport = int(args.ports)
 
     if port_range:
-        print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
+        print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
         chp(host, sport, eport, False, timeout)
 
     else:
@@ -110,7 +110,7 @@ elif args.verbose >= 2:
             sport = int(args.ports)
 
     if port_range:
-        print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
+        print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
         chp(host, sport, eport, True, timeout)
     else:
         print("Scanning host {}'s port {}".format(host, sport))
@@ -138,7 +138,7 @@ elif args.verbose >= 1:
             sport = int(args.ports)
 
     if port_range:
-        print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
+        print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
         chp(host, sport, eport, True, timeout)
     else:
         print("Scanning host {}'s port {}".format(host, sport))
