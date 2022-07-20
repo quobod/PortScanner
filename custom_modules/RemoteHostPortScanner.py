@@ -3,6 +3,7 @@
 import argparse
 from ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
 from PortScanner import check_port as chp
+from LocalConfigParser import return_route
 
 
 cus = cms["custom"]
@@ -12,7 +13,7 @@ port_range = False
 sport = 1
 eport = 65534
 ports = range(sport, eport)
-host = "192.168.1.1"
+netface, local_addr, host = return_route()
 
 parser = argparse.ArgumentParser(
     description="Remote host port scanner. This program scans the given port(s) of the given host"
@@ -131,6 +132,8 @@ def run_verbose_level_1_mode(cus, args):
         host = args.addr
 
     if args.timeout:
+        global timeout
+
         timeout = args.timeout
 
     if args.ports:
