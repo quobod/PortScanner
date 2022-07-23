@@ -25,14 +25,16 @@ def test_port_scanner():
         host = filtered[0]
         sport = int(filtered[1])
         eport = int(filtered[2])
-        chp(host, sport, eport)
+        ports = (sport, eport)
+        chp(host, ports, None, None, None)
 
     elif filtered_count == 4:
         host = filtered[0]
         sport = int(filtered[1])
         eport = int(filtered[2])
+        ports = (sport, eport)
         verbose = bool(filtered[3])
-        chp(host, sport, eport, verbose)
+        chp(host, ports, None, verbose)
     else:
         print("{}".format("No arguments"))
 

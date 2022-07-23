@@ -9,3 +9,4 @@ pyvenv.cfg
 */share
 */lib
 */bin
+app.py
