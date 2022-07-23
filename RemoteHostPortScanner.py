@@ -1,14 +1,19 @@
 #! /usr/bin/python3
 
 import argparse
-from ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
-from PortScanner import check_port as chp
-from LocalConfigParser import return_route
+from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
+from custom_modules.PortScanner import check_port as chp
+from custom_modules.LocalConfigParser import return_route
+
+""" from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
+from custom_modules.PortScanner import check_port as chp
+from custom_modules.LocalConfigParser import return_route """
 
 
 cus = cms["custom"]
 msg = None
 timeout = None
+verbose = None
 port_range = False
 sport = 1
 eport = 65534
@@ -63,6 +68,10 @@ args = parser.parse_args()
 
 
 def run_quiet_mode(cus, args):
+    global timeout
+    global sport, eport, ports
+    global port_range
+
     msg = "Run program silently"
     cmsg = cus(177, 200, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
@@ -71,7 +80,6 @@ def run_quiet_mode(cus, args):
         host = args.addr
 
     if args.timeout:
-        global timeout
 
         timeout = args.timeout
 
@@ -80,13 +88,16 @@ def run_quiet_mode(cus, args):
             ports_split = args.ports.split("-")
             sport = int(ports_split[0])
             eport = int(ports_split[1])
+            ports = (sport, eport)
             port_range = True
         else:
             sport = int(args.ports)
+    else:
+        port_range = False
 
     if port_range:
         print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
-        chp(host, sport, eport, False, timeout)
+        chp(host, ports, None, False, timeout)
 
     else:
         print("Scanning host {}'s port {}".format(host, sport))
@@ -98,6 +109,8 @@ def run_verbose_level_2_mode(cus, args):
     cmsg = cus(177, 230, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
 
+    global port_range
+
     if args.addr:
         host = args.addr
 
@@ -111,13 +124,16 @@ def run_verbose_level_2_mode(cus, args):
             ports_split = args.ports.split("-")
             sport = int(ports_split[0])
             eport = int(ports_split[1])
+            ports = (sport, eport)
             port_range = True
         else:
             sport = int(args.ports)
+    else:
+        port_range = False
 
     if port_range:
         print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
-        chp(host, sport, eport, True, timeout)
+        chp(host, ports, None, True, timeout)
     else:
         print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, True, timeout)
@@ -128,6 +144,8 @@ def run_verbose_level_1_mode(cus, args):
     cmsg = cus(177, 240, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
 
+    global port_range
+
     if args.addr:
         host = args.addr
 
@@ -141,13 +159,16 @@ def run_verbose_level_1_mode(cus, args):
             ports_split = args.ports.split("-")
             sport = int(ports_split[0])
             eport = int(ports_split[1])
+            ports = (sport, eport)
             port_range = True
         else:
             sport = int(args.ports)
+    else:
+        port_range = False
 
     if port_range:
         print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
-        chp(host, sport, eport, True, timeout)
+        chp(host, ports, None, True, timeout)
     else:
         print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, True, timeout)
@@ -158,6 +179,8 @@ def run_default_mode(cus, args):
     cmsg = cus(177, 200, 177, msg)
     print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
 
+    global port_range
+
     if args.addr:
         host = args.addr
 
@@ -171,13 +194,16 @@ def run_default_mode(cus, args):
             ports_split = args.ports.split("-")
             sport = int(ports_split[0])
             eport = int(ports_split[1])
+            ports = (sport, eport)
             port_range = True
         else:
             sport = int(args.ports)
+    else:
+        port_range = False
 
     if port_range:
         print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
-        chp(host, sport, eport, False, timeout)
+        chp(host, ports, None, False, timeout)
     else:
         print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, False, timeout)
