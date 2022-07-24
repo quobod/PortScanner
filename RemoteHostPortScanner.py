@@ -5,11 +5,6 @@ from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
 from custom_modules.PortScanner import check_port as chp
 from custom_modules.LocalConfigParser import return_route
 
-""" from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
-from custom_modules.PortScanner import check_port as chp
-from custom_modules.LocalConfigParser import return_route """
-
-
 cus = cms["custom"]
 msg = None
 timeout = None

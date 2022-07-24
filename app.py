@@ -39,8 +39,10 @@ def test_port_scanner():
         print("{}".format("No arguments"))
 
 
+rar()
+
 # print("Local MAC by IP address:\t{}".format(return_mac_by_ip_address("192.168.1.71")))
 
-# print(type(return_local_ip_address()))
+# print(return_local_ip_address())
 
-test_port_scanner()
+# test_port_scanner()

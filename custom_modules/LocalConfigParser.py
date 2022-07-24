@@ -26,8 +26,53 @@ def return_local_route():
 
 
 # Arp request
-def return_arp_results(mask="192.168.1.0/24", update_cache=True):
-    return arping(mask, cache=update_cache)
+def return_arp_results(
+    target=None, timeout=None, cache=None, verbose=None, report=None
+):
+
+    print("{}  {}  {}  {}  {}".format(target, timeout, cache, verbose, report))
+    global _timeout, _verbose, _report, _cache, _target
+
+    _timeout = 2
+    _verbose = False
+    _report = False
+    _cache = False
+    _target = "192.168.1.0/24"
+
+    if not target == None:
+        _target = target
+
+        if not timeout == None:
+            _timeout = timeout
+
+        if not cache == None and str(type(cache)) == "<class 'bool'>":
+            _cache = cache
+
+        if not verbose == None and str(type(verbose)) == "<class 'bool'>":
+            _verbose = verbose
+
+        if not report == None and str(type(report)) == "<class 'bool'>":
+            _report = report
+
+        if _cache == True:
+            print("cache")
+
+        if _verbose == True:
+            print("verbose")
+
+        if _report == True:
+            print("report")
+
+        results = arping(_target, _timeout, _cache, _verbose)[0]
+
+        for sent, recv in results:
+            if _report:
+                arp_results = "_arp-results.txt"
+                address_map = "{}\t{}\n".format(recv.psrc, recv.hwsrc)
+                address_map_bytes = bytes(address_map, "utf-8")
+
+                with open(arp_results, "ab") as file:
+                    file.write(address_map_bytes)
 
 
 # Get gateway address

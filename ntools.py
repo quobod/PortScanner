@@ -3,9 +3,9 @@
 import argparse
 import re
 from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
-from custom_modules.PatternConstants import IP4, IPv4
+from custom_modules.PatternConstants import IP4, IPv4, IPv4_network
 from custom_modules.LocalConfigParser import (
-    return_arp_results,
+    return_arp_results as rar,
     return_gateway_addr,
     return_local_ip_address,
     return_local_ip_address_by_name,
@@ -17,28 +17,57 @@ from custom_modules.LocalConfigParser import (
 )
 
 desc = "A network information gathering tool"
+epil = "Make ARP requests to given host or network range"
 if_name, if_addr, gateway = return_route()
 cus = cms["custom"]
 msg = None
 match = None
 
-parser = argparse.ArgumentParser(description=desc)
+
+parser = argparse.ArgumentParser(description=desc, epilog=epil)
 
 """ group optional arguments """
 
 group = parser.add_mutually_exclusive_group()
 
+# Increase verbosity
 group.add_argument(
-    "-v", "--verbose", help="Increase output verbosity", action="count", default=0
+    "-v",
+    "--verbose",
+    dest="verbose",
+    action="store_true",
+    help="Increase output verbosity",
+)
+
+group.add_argument(
+    "-q", "--quiet", dest="verbose", action="store_false", help="Silently run program"
 )
 
 """ positional arguments """
 
+# Run program
 parser.add_argument(
     "-a",
     "--arp",
     help="Make arp request for hosts on given network; e.g. --arp 110.2.77.43/72.",
-    default=gateway,
+)
+
+# Set timeout
+parser.add_argument(
+    "-t", "--timeout", help="Set the number of seconds to give up", type=int
+)
+
+# Update system cache
+parser.add_argument(
+    "-c",
+    "--cache",
+    choices=["yes", "no"],
+    help="Whether or not to refresh system's arp cache - e.g. 0 = True, 1 = False",
+)
+
+# Print report
+parser.add_argument(
+    "-r", "--report", choices=["yes", "no"], help="Print results to a text file"
 )
 
 # parse arguments
@@ -46,44 +75,36 @@ args = parser.parse_args()
 
 """ ARP Request  """
 
-if not args.arp:
-    args.arp = gateway
+_target = "{}/24".format(gateway)
+_timeout = None
+_cache = None
+_verbose = None
+_report = None
 
-if args.verbose >= 2:
-    msg = "Running program with level {} verbosity".format(args.verbose)
-    cmsg = cus(255, 235, 195, msg)
-    print(cmsg)
+if args.arp:
+    _target = args.arp
 
-    match = re.search(IP4, args.arp)
+if args.timeout:
+    _timeout = args.timeout
 
-    if not match == None:
-        msg = "Making arp request to target {}".format(args.arp)
-        cmsg = cus(255, 255, 255, msg)
-        print(cmsg)
-        cmsg = cus(137, 223, 137, "")
-        print(cmsg)
-        ans, unans = return_arp_results(args.arp)
-        # ans.nsummary()
-        # print(ans)
-    else:
-        msg = "Address {} is invalid\nExpecting a valid IP4 or IP6 address.".format(
-            args.arp
-        )
-        cmsg = cus(223, 87, 87, msg)
-        print(cmsg)
+if args.verbose:
+    _verbose = True
 else:
-    match = re.search(IPv4, args.arp)
+    _verbose = False
 
-    if not match == None:
-        # msg = "Making arp request to target {}".format(args.arp)
-        # cmsg = cus(127, 253, 127, msg)
-        # print(cmsg)
-        ans, unans = return_arp_results(args.arp)
-        # ans.nsummary()
-        # print(ans)
+if args.cache:
+    if args.cache.lower().strip() == "yes":
+        _cache = True
     else:
-        msg = "Address {} is invalid\nExpecting a valid IP4 or IP6 address.".format(
-            args.arp
-        )
-        cmsg = cus(223, 87, 87, msg)
-        print(cmsg)
+        _cache = False
+
+if args.report:
+    if args.report.lower().strip() == "yes":
+        _report = True
+    else:
+        _report = False
+
+print("Target,  Timeout,  Cache,  Verbose,  Report")
+print("{}  {}  {}  {}  {}".format(_target, _timeout, _cache, _verbose, _report))
+
+rar(_target, _timeout, _cache, _verbose, _report)

@@ -1,0 +1,20 @@
+arping(net, timeout=2, cache=0, verbose=None, **kargs)
+    Send ARP who-has requests to determine which hosts are up
+    arping(net, [cache=0,] [iface=conf.iface,] [verbose=conf.verb]) -> None
+    Set cache=True if you want arping to modify internal ARP-Cache
+
+Example:
+
+    results = arping(_target, _timeout, _cache, _verbose)[0]
+
+        for sent, recv in results:
+            if _verbose:
+                print("{}\t{}".format(recv.psrc, recv.hwsrc))
+
+            if _report:
+                arp_results = "_arp-results.txt"
+                address_map = "{}\t{}\n".format(recv.psrc, recv.hwsrc)
+                address_map_bytes = bytes(address_map, "utf-8")
+
+                with open(arp_results, "ab") as file:
+                    file.write(address_map_bytes)

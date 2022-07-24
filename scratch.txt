@@ -242,3 +242,36 @@ def thread_test(test_function):
 
 ns dir:
 	['__add__', '__class__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattr__', '__getattribute__', '__getitem__', '__getstate__', '__gt__', '__hash__', '__init__', '__init_subclass__', '__le__', '__len__', '__lt__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__setstate__', '__sizeof__', '__slots__', '__str__', '__subclasshook__', '__weakref__', '_elt2pkt', '_elt2show', '_elt2sum', 'afterglow', 'canvas_dump', 'conversations', 'convert_to', 'diffplot', 'display', 'filter', 'getlayer', 'hexdump', 'hexraw', 'listname', 'make_lined_table', 'make_table', 'make_tex_table', 'multiplot', 'nsummary', 'nzpadding', 'padding', 'pdfdump', 'plot', 'psdump', 'rawhexdump', 'replace', 'res', 'sessions', 'show', 'sr', 'stats', 'summary', 'svgdump', 'timeskew_graph']
+------------------------
+
+if not match == None:
+        msg = "Making arp request to target {}".format(addr)
+        cmsg = cus(255, 255, 255, msg)
+        print(cmsg)
+        cmsg = cus(137, 223, 137, "")
+        print(cmsg)
+        ans, unans = rar(args.arp)
+        # ans.nsummary()
+        # print(ans)
+    else:
+        msg = "Address {} is invalid\nExpecting a valid IP4 or IP6 address.".format(
+            args.arp
+        )
+        cmsg = cus(223, 87, 87, msg)
+        print(cmsg)
+else:
+    match = re.search(IPv4, args.arp)
+
+    if not match == None:
+        # msg = "Making arp request to target {}".format(args.arp)
+        # cmsg = cus(127, 253, 127, msg)
+        # print(cmsg)
+        ans, unans = rar(args.arp)
+        # ans.nsummary()
+        # print(ans)
+    else:
+        msg = "Address {} is invalid\nExpecting a valid IP4 or IP6 address.".format(
+            args.arp
+        )
+        cmsg = cus(223, 87, 87, msg)
+        print(cmsg)
