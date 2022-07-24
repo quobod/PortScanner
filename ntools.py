@@ -104,7 +104,15 @@ if args.report:
     else:
         _report = False
 
-print("Target,  Timeout,  Cache,  Verbose,  Report")
-print("{}  {}  {}  {}  {}".format(_target, _timeout, _cache, _verbose, _report))
+# print("Target,  Timeout,  Cache,  Verbose,  Report")
+# print("{}  {}  {}  {}  {}".format(_target, _timeout, _cache, _verbose, _report))
+
+if _verbose:
+
+    print(
+        "ARPing Target: {}\tTimeout: {}\tCache? {}\tVerbose? {}\tReport? {}".format(
+            _target, _timeout, _cache, _verbose, _report
+        )
+    )
 
 rar(_target, _timeout, _cache, _verbose, _report)

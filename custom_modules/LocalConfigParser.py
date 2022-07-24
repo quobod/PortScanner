@@ -30,7 +30,7 @@ def return_arp_results(
     target=None, timeout=None, cache=None, verbose=None, report=None
 ):
 
-    print("{}  {}  {}  {}  {}".format(target, timeout, cache, verbose, report))
+    # print("{}  {}  {}  {}  {}".format(target, timeout, cache, verbose, report))
     global _timeout, _verbose, _report, _cache, _target
 
     _timeout = 2
@@ -54,29 +54,29 @@ def return_arp_results(
         if not report == None and str(type(report)) == "<class 'bool'>":
             _report = report
 
-        if _cache == True:
-            print("cache")
+        # if _cache == True:
+        #     print("cache")
 
-        if _verbose == True:
-            print("verbose")
+        # if _verbose == True:
+        #     print("verbose")
 
-        if _report == True:
-            print("report")
+        # if _report == True:
+        #     print("report")
 
         results = arping(_target, _timeout, _cache, _verbose)[0]
 
         print("\n")
 
         for sent, recv in results:
-            if _verbose:
-                print(
-                    "From {}\t{}\nTo {}\t\t{}\n".format(
-                        str(sent.psrc).strip(),
-                        str(sent.hwsrc).strip(),
-                        str(recv.psrc).strip(),
-                        str(recv.hwsrc).strip(),
-                    )
+            """if _verbose:
+            print(
+                "From {}\t{}\nTo {}\t\t{}\n".format(
+                    str(sent.psrc).strip(),
+                    str(sent.hwsrc).strip(),
+                    str(recv.psrc).strip(),
+                    str(recv.hwsrc).strip(),
                 )
+            )"""
 
             if _report:
                 arp_results = "_arp-results.txt"
