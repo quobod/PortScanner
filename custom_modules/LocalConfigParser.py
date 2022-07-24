@@ -65,7 +65,19 @@ def return_arp_results(
 
         results = arping(_target, _timeout, _cache, _verbose)[0]
 
+        print("\n")
+
         for sent, recv in results:
+            if _verbose:
+                print(
+                    "From {}\t{}\nTo {}\t\t{}\n".format(
+                        str(sent.psrc).strip(),
+                        str(sent.hwsrc).strip(),
+                        str(recv.psrc).strip(),
+                        str(recv.hwsrc).strip(),
+                    )
+                )
+
             if _report:
                 arp_results = "_arp-results.txt"
                 address_map = "{}\t{}\n".format(recv.psrc, recv.hwsrc)
