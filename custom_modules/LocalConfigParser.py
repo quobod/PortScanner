@@ -7,22 +7,19 @@ from scapy.all import *
     It's IP address and the gateway address
 """
 
-IP = "0.0.0.0"
 
 # Return 3 strings
 def return_route():
-    global IP
     return (
-        conf.route.route(IP)[0],
-        conf.route.route(IP)[1],
-        conf.route.route(IP)[2],
+        conf.route.route()[0],
+        conf.route.route()[1],
+        conf.route.route()[2],
     )
 
 
 # Return tuple
 def return_local_route():
-    global IP
-    return conf.route.route(IP)
+    return conf.route.route()
 
 
 # Arp request

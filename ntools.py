@@ -17,7 +17,7 @@ from custom_modules.LocalConfigParser import (
 )
 
 desc = "A network information gathering tool"
-epil = "Make ARP requests to given host or network range"
+epil = "This program needs adminstrative access to perform many, if not, all of it's tasks."
 if_name, if_addr, gateway = return_route()
 cus = cms["custom"]
 msg = None
@@ -39,17 +39,28 @@ group.add_argument(
     help="Increase output verbosity",
 )
 
+# Run silently
 group.add_argument(
     "-q", "--quiet", dest="verbose", action="store_false", help="Silently run program"
 )
 
 """ positional arguments """
 
+# Print local routing table
+parser.add_argument(
+    "-l", "--local", action="store_true", dest="local", help="Print local routing table"
+)
+
+# Print gateway address
+parser.add_argument(
+    "-g", "--gateway", action="store_true", dest="gateway", help="Print gateway address"
+)
+
 # Run program
 parser.add_argument(
     "-a",
     "--arp",
-    help="Make arp request for hosts on given network; e.g. --arp 110.2.77.43/72.",
+    help="ARP to host or network e.g. --arp 192.167.45.3 or --arp 10.1.10.1/8.",
 )
 
 # Set timeout
@@ -62,7 +73,7 @@ parser.add_argument(
     "-c",
     "--cache",
     choices=["yes", "no"],
-    help="Whether or not to refresh system's arp cache - e.g. 0 = True, 1 = False",
+    help="Whether or not to refresh system's arp cache - e.g. yes or no. Defaults to no",
 )
 
 # Print report
@@ -108,7 +119,6 @@ if args.report:
 # print("{}  {}  {}  {}  {}".format(_target, _timeout, _cache, _verbose, _report))
 
 if _verbose:
-
     print(
         "ARPing Target: {}\tTimeout: {}\tCache? {}\tVerbose? {}\tReport? {}".format(
             _target, _timeout, _cache, _verbose, _report
@@ -116,3 +126,33 @@ if _verbose:
     )
 
 rar(_target, _timeout, _cache, _verbose, _report)
+
+
+""" Gateway Request  """
+
+if args.gateway:
+    gwa = return_gateway_addr()
+    print("Gateway: {}".format(gwa))
+
+
+""" Local Route Request  """
+
+
+def print_local_route():
+    msg = cms["custom"]
+    local_route = return_route()
+    dash = msg(245, 220, 199, "-")
+    print(
+        " {}".format(msg(255, 255, 255, "IFace"))
+        + " " * 5
+        + "\t  {}".format(msg(255, 255, 255, "Address"))
+        + " " * 5
+        + "\t\t {}".format(msg(255, 255, 255, "Gateway"))
+    )
+    print(dash * 29)
+    print(*local_route, sep="\t\t")
+    print("\n")
+
+
+if args.local:
+    print_local_route()
