@@ -46,4 +46,4 @@ print("\n\nAvailable devices in the network:")
 print("IP" + "  " * 18 + "MAC\n" + "-" * 55)
 
 for client in clients:
-    print("{:16}                      {}".format(client["ip"], client["mac"]))
+    print("{:16}{}".format(client["ip"], client["mac"]))

@@ -1,0 +1,1 @@
+sudo nmap -O -sN -p 1-65000 xxx.xxx.xxx.xxx

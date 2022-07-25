@@ -24,8 +24,8 @@ def is_port_open(host, port, verbose=False, timeout=None):
                         print("{}".format(ex.args[1]))
                     elif len(ex.args) == 1:
                         print("{}".format(ex.args[0]))
-                else:
-                    print("{}".format(ex))
+                # else:
+                #     print("{}".format(ex))
 
             return False
     return True
@@ -124,7 +124,7 @@ def check_port(
                     cus = cms["custom"]
                     msg = "Port {} is closed".format(port)
                     cmsg = cus(100, 100, 100, msg)
-                    print("{}".format(cmsg))
+                    # print("{}".format(cmsg))
         else:
             if sport:
                 if is_port_open(_host, sport, verbose, _timeout):
@@ -136,4 +136,4 @@ def check_port(
                     cus = cms["custom"]
                     msg = "Port {} is closed".format(sport)
                     cmsg = cus(100, 100, 100, msg)
-                    print("{}".format(cmsg))
+                    # print("{}".format(cmsg))

@@ -2,6 +2,8 @@
 
 import argparse
 import re
+import os
+import sys
 from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
 from custom_modules.PatternConstants import IP4, IPv4, IPv4_network
 from custom_modules.LocalConfigParser import (
@@ -16,15 +18,81 @@ from custom_modules.LocalConfigParser import (
     return_route,
 )
 
-desc = "A network information gathering tool"
+
+def error_handler(*args):
+    cus = cms["custom"]
+    arg = args[0]
+    cargs = cus(254, 64, 4, arg)
+    print("{}".format(cargs))
+    sys.exit(os.EX_USAGE)
+
+
+def warning_handler(*args):
+    cus = cms["custom"]
+    arg = args[0]
+    cargs = cus(254, 224, 224, arg)
+    print("{}".format(cargs))
+    sys.exit(os.EX_USAGE)
+
+
+desc = "A tool that displays and can print reports about the hosts connected to the network."
 epil = "This program needs adminstrative access to perform many, if not, all of it's tasks."
+console_width_size = os.get_terminal_size(sys.__stderr__.fileno())[0]
+warning_message = (
+    "*" * 28
+    + "\n|"
+    + " " * 7
+    + "Warning"
+    + " " * 12
+    + "|\n|"
+    + " " * 26
+    + "|\n"
+    + "*" * 28
+    + "\nThis program need admin access\n"
+)
 if_name, if_addr, gateway = return_route()
 cus = cms["custom"]
 msg = None
 match = None
 
 
+def print_local_route():
+    msg = cms["custom"]
+    local_route = return_route()
+    dash = msg(245, 220, 199, "-")
+    title = msg(200, 255, 200, "Local network interface")
+    print(
+        "{}\n".format(title)
+        + " {}".format(msg(255, 255, 255, "Name"))
+        + " " * 5
+        + "\t  {}".format(msg(255, 255, 255, "Address"))
+        + " " * 5
+        + "\t\t {}".format(msg(255, 255, 255, "Gateway"))
+    )
+    print(dash * 29)
+    print(*local_route, sep="\t\t")
+    print("\n")
+
+
+def print_local_mac():
+    msg = cms["custom"]
+    local_mac = return_local_mac_address()
+    dash = msg(245, 220, 199, "-")
+    title = msg(200, 255, 200, "Local network interface hardware address")
+    print(
+        "{}\n".format(title)
+        + " {}".format(msg(255, 255, 255, "Name"))
+        + " " * 5
+        + "\t  {}".format(msg(255, 255, 255, "MAC"))
+    )
+    print(dash * 21)
+    print("{}\t\t{}".format(if_name, local_mac))
+    print("\n")
+
+
 parser = argparse.ArgumentParser(description=desc, epilog=epil)
+
+parser.error = error_handler
 
 """ group optional arguments """
 
@@ -78,11 +146,26 @@ parser.add_argument(
 
 # Print report
 parser.add_argument(
-    "-r", "--report", choices=["yes", "no"], help="Print results to a text file"
+    "-r",
+    "--report",
+    choices=["yes", "no"],
+    help="Print results to a text file. Defaults to no.",
+)
+
+# Print network interface hardware address
+parser.add_argument(
+    "-m",
+    "--mac",
+    action="store_true",
+    dest="mac",
+    help="Print local iface hardware address",
 )
 
 # parse arguments
 args = parser.parse_args()
+
+if not os.geteuid() == 0:
+    warning_handler(warning_message)
 
 """ ARP Request  """
 
@@ -91,6 +174,7 @@ _timeout = None
 _cache = None
 _verbose = None
 _report = None
+
 
 if args.arp:
     _target = args.arp
@@ -128,31 +212,17 @@ if _verbose:
 rar(_target, _timeout, _cache, _verbose, _report)
 
 
-""" Gateway Request  """
-
+""" Gateway Request """
 if args.gateway:
     gwa = return_gateway_addr()
     print("Gateway: {}".format(gwa))
 
 
-""" Local Route Request  """
-
-
-def print_local_route():
-    msg = cms["custom"]
-    local_route = return_route()
-    dash = msg(245, 220, 199, "-")
-    print(
-        " {}".format(msg(255, 255, 255, "IFace"))
-        + " " * 5
-        + "\t  {}".format(msg(255, 255, 255, "Address"))
-        + " " * 5
-        + "\t\t {}".format(msg(255, 255, 255, "Gateway"))
-    )
-    print(dash * 29)
-    print(*local_route, sep="\t\t")
-    print("\n")
-
-
+""" Local Route Request """
 if args.local:
     print_local_route()
+
+
+""" Iface Hardware Address Request  """
+if args.mac:
+    print_local_mac()

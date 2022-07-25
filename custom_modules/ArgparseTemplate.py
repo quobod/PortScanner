@@ -10,14 +10,25 @@ sport = 1
 eport = 65534
 ports = range(sport, eport)
 
+
+def error_handler(*args):
+    cus = cms["custom"]
+    arg = args[0]
+    cargs = cus(254, 64, 4, arg)
+    print("{}".format(cargs))
+
+
 parser = argparse.ArgumentParser(description="Remote host port scanner")
+
+parser.error = error_handler
 
 group = parser.add_mutually_exclusive_group()
 
 # group arguments
 group.add_argument(
-    "-v", "--verbose", help="Increase output verbosity", action="count", default=0
+    "-v", "--verbose", help="Increase output verbosity", action="store_true"
 )
+
 group.add_argument(
     "-q", "--quiet", help="Silently run the program", action="store_true"
 )
@@ -36,68 +47,6 @@ parser.add_argument(
     default="t",
 )
 
-parser.add_argument(
-    "-p",
-    "--ports",
-    help="Select which port or range of ports to scan; e.g. -p 22 or -p 1-1024. Defaults from 1 to 65,535",
-    default="{}-{}".format(sport, eport),
-)
-
 args = parser.parse_args()
 
-if args.quiet:
-    msg = "Run program silently"
-    cmsg = cus(177, 200, 177, msg)
-
-    if args.ports:
-        if "-" in args.ports:
-            ports_split = args.ports.split("-")
-            sport = ports_split[0]
-            eport = ports_split[1]
-        else:
-            sport = args.ports
-
-    print("Ports {} - {}".format(sport, eport))
-    print("\n\t{}\n\tArgs: {}".format(cmsg, args))
-elif args.verbose >= 2:
-    msg = "Run program with level {} verbosity".format(args.verbose)
-    cmsg = cus(177, 230, 177, msg)
-
-    if args.ports:
-        if "-" in args.ports:
-            ports_split = args.ports.split("-")
-            sport = ports_split[0]
-            eport = ports_split[1]
-        else:
-            sport = args.ports
-
-    print("Ports {} - {}".format(sport, eport))
-    print("\n\t{}\n\tArgs: {}".format(cmsg, args))
-elif args.verbose >= 1:
-    msg = "Run program with level {} verbosity".format(args.verbose)
-    cmsg = cus(177, 240, 177, msg)
-
-    if args.ports:
-        if "-" in args.ports:
-            ports_split = args.ports.split("-")
-            sport = ports_split[0]
-            eport = ports_split[1]
-        else:
-            sport = args.ports
-
-    print("Ports {} - {}".format(sport, eport))
-    print("\n\t{}\n\tArgs: {}".format(cmsg, args))
-else:
-    msg = "Run program with default config"
-    cmsg = cus(177, 200, 177, msg)
-
-    if args.ports:
-        if "-" in args.ports:
-            ports_split = args.ports.split("-")
-            sport = ports_split[0]
-            eport = ports_split[1]
-        else:
-            sport = args.ports
-
-    print("Ports {} - {}".format(sport, eport))
-    print("\n\t{}\n\tArgs: {}".format(cmsg, args))
+# print("Error: {}".format(parser))

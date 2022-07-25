@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 
 import argparse
+import os
 from custom_modules.ConsoleMessenger import CONSOLE_MESSENGER_SWITCH as cms
 from custom_modules.PortScanner import check_port as chp
 from custom_modules.LocalConfigParser import return_route
@@ -15,9 +16,24 @@ eport = 65534
 ports = range(sport, eport)
 netface, local_addr, host = return_route()
 
-parser = argparse.ArgumentParser(
-    description="Remote host port scanner. This program scans the given port(s) of the given host"
-)
+desc = "This program scans the given port(s) of the given host"
+epil = "Scan a port or range of ports of hosts on the network"
+vers = "%prog 0.1"
+
+
+def error_handler(*args):
+    cus = cms["custom"]
+    arg = args[0]
+    cargs = cus(254, 64, 4, arg)
+    print("{}".format(cargs))
+    os.system("exit")
+
+
+parser = argparse.ArgumentParser(description=desc, epilog=epil)
+
+parser.error = error_handler
+
+parser.version = vers
 
 group = parser.add_mutually_exclusive_group()
 
@@ -69,7 +85,7 @@ def run_quiet_mode(cus, args):
 
     msg = "Run program silently"
     cmsg = cus(177, 200, 177, msg)
-    print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
+    # print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
 
     if args.addr:
         host = args.addr
@@ -137,7 +153,7 @@ def run_verbose_level_2_mode(cus, args):
 def run_verbose_level_1_mode(cus, args):
     msg = "Running program with level {} verbosity".format(args.verbose)
     cmsg = cus(177, 240, 177, msg)
-    print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
+    # print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
 
     global port_range
 
@@ -172,9 +188,9 @@ def run_verbose_level_1_mode(cus, args):
 def run_default_mode(cus, args):
     msg = "Run program with default config"
     cmsg = cus(177, 200, 177, msg)
-    print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
+    # print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
 
-    global port_range
+    global port_range, sport, eport
 
     if args.addr:
         host = args.addr
@@ -197,10 +213,10 @@ def run_default_mode(cus, args):
         port_range = False
 
     if port_range:
-        print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
+        # print("Scanning host {}'s ports {} - {}".format(host, sport, eport))
         chp(host, ports, None, False, timeout)
     else:
-        print("Scanning host {}'s port {}".format(host, sport))
+        # print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, False, timeout)
 
 
