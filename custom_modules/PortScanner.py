@@ -43,6 +43,7 @@ def is_port_open(host, port, verbose=False, timeout=None):
 def check_port(
     host=None, port_start_range=None, port_end_range=None, verbose=False, timeout=None
 ):
+    cmsg = cms["custom"]
     _host = None
     sport = None
     eport = None
@@ -80,9 +81,22 @@ def check_port(
         _timeout = timeout
 
     if _verbose:
-        print(" " * 55 + "Port Scanner\n" + "-" * 25 + "> Target: {}".format(host))
+        title = cmsg(255, 255, 255, "Port Scanner")
+        chost = cmsg(190, 255, 255, _host)
+        target = cmsg(200, 200, 255, "Target: {}".format(chost))
+        asterisk = cmsg(255, 245, 100, "*")
+        underscore = "*"
+
+        print(underscore * 100)
+        print(asterisk + " " * 38 + title + " " * 46 + asterisk)
+        print(asterisk + " " * 35 + target + " " * 41 + asterisk)
 
         if _port_range:
+            action = cmsg(170, 255, 150, "Scanning ports {}-{}".format(sport, eport))
+
+            print(asterisk + " " * 33 + action + " " * 41 + asterisk)
+            print("*" * 100 + "\n")
+
             for port in range(sport, eport):
                 cus = cms["custom"]
                 msg = "Checking port {}".format(port)
@@ -101,6 +115,11 @@ def check_port(
                     print("{}\n".format(cmsg))
         else:
             if sport:
+                action = cmsg(170, 255, 150, "Scanning port {}".format(sport))
+
+                print(asterisk + " " * 36 + action + " " * 43 + asterisk)
+                print("*" * 100 + "\n")
+
                 if is_port_open(_host, sport, verbose, _timeout):
                     suc = cms["success"]
                     msg = "Port {} is opened".format(sport)

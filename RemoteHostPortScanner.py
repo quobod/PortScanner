@@ -83,7 +83,7 @@ def run_quiet_mode(cus, args):
     global sport, eport, ports
     global port_range
 
-    msg = "Run program silently"
+    msg = "Silently running program"
     cmsg = cus(177, 200, 177, msg)
     # print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
 
@@ -91,7 +91,6 @@ def run_quiet_mode(cus, args):
         host = args.addr
 
     if args.timeout:
-
         timeout = args.timeout
 
     if args.ports:
@@ -103,51 +102,14 @@ def run_quiet_mode(cus, args):
             port_range = True
         else:
             sport = int(args.ports)
-    else:
-        port_range = False
 
     if port_range:
-        print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
+        # print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
         chp(host, ports, None, False, timeout)
 
     else:
-        print("Scanning host {}'s port {}".format(host, sport))
+        # print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, False, timeout)
-
-
-def run_verbose_level_2_mode(cus, args):
-    msg = "Running program with level {} verbosity".format(args.verbose)
-    cmsg = cus(177, 230, 177, msg)
-    print("\n\t\t\t{}\n".format(cmsg) + "-" * 75 + "\n")
-
-    global port_range
-
-    if args.addr:
-        host = args.addr
-
-    if args.timeout:
-        global timeout
-
-        timeout = args.timeout
-
-    if args.ports:
-        if "-" in args.ports:
-            ports_split = args.ports.split("-")
-            sport = int(ports_split[0])
-            eport = int(ports_split[1])
-            ports = (sport, eport)
-            port_range = True
-        else:
-            sport = int(args.ports)
-    else:
-        port_range = False
-
-    if port_range:
-        print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
-        chp(host, ports, None, True, timeout)
-    else:
-        print("Scanning host {}'s port {}".format(host, sport))
-        chp(host, sport, None, True, timeout)
 
 
 def run_verbose_level_1_mode(cus, args):
@@ -174,14 +136,10 @@ def run_verbose_level_1_mode(cus, args):
             port_range = True
         else:
             sport = int(args.ports)
-    else:
-        port_range = False
 
     if port_range:
-        print("Scanning host {}'s ports {}-{}".format(host, sport, eport))
         chp(host, ports, None, True, timeout)
     else:
-        print("Scanning host {}'s port {}".format(host, sport))
         chp(host, sport, None, True, timeout)
 
 
@@ -223,10 +181,6 @@ def run_default_mode(cus, args):
 # Quiet mode
 if args.quiet:
     run_quiet_mode(cus, args)
-
-# Level 2 verbose mode
-elif args.verbose >= 2:
-    run_verbose_level_2_mode(cus, args)
 
 # Level 1 verbose mode
 elif args.verbose >= 1:
