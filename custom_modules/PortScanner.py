@@ -87,15 +87,10 @@ def check_port(
         asterisk = cmsg(255, 245, 100, "*")
         underscore = "*"
 
-        print(underscore * 100)
-        print(asterisk + " " * 38 + title + " " * 46 + asterisk)
-        print(asterisk + " " * 35 + target + " " * 41 + asterisk)
+        prog_start(title, target, asterisk, underscore)
 
         if _port_range:
             action = cmsg(170, 255, 150, "Scanning ports {}-{}".format(sport, eport))
-
-            print(asterisk + " " * 33 + action + " " * 41 + asterisk)
-            print("*" * 100 + "\n")
 
             for port in range(sport, eport):
                 cus = cms["custom"]
@@ -115,10 +110,10 @@ def check_port(
                     print("{}\n".format(cmsg))
         else:
             if sport:
-                action = cmsg(170, 255, 150, "Scanning port {}".format(sport))
-
-                print(asterisk + " " * 36 + action + " " * 43 + asterisk)
-                print("*" * 100 + "\n")
+                cus = cms["custom"]
+                msg = "Checking port {}".format(sport)
+                cmsg = cus(222, 222, 222, msg)
+                print("{}".format(cmsg))
 
                 if is_port_open(_host, sport, verbose, _timeout):
                     suc = cms["success"]
@@ -155,4 +150,15 @@ def check_port(
                     cus = cms["custom"]
                     msg = "Port {} is closed".format(sport)
                     cmsg = cus(100, 100, 100, msg)
-                    # print("{}".format(cmsg))
+
+
+def prog_start(title, target, asterisk, underscore):
+    print(underscore * 100)
+    print(asterisk + " " * 38 + title + " " * 46 + asterisk)
+    print(asterisk + " " * 35 + target + " " * 41 + asterisk)
+    print("*" * 100 + "\n")
+    # print("{}".format(cmsg))
+
+
+def scan_action(arg):
+    print("{}".format(arg))
