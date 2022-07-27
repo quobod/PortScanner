@@ -168,7 +168,6 @@ if not os.geteuid() == 0:
     warning_handler(warning_message)
 
 """ ARP Request  """
-
 _target = "{}/24".format(gateway)
 _timeout = None
 _cache = None
