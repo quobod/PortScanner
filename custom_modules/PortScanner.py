@@ -164,11 +164,10 @@ def prog_start(title, target, asterisk, underscore):
 def scan_action(arg):
     cus = cms["custom"]
     msg = None
-
     if "<class 'tuple'>" == str(type(arg)) or "<class 'list'>" == str(type(arg)):
         sport = arg[0]
         eport = arg[1]
-        msg = "Scanning ports {}-{}".format(sport, eport)
+        msg = "Ports {}-{}".format(sport, eport)
     else:
-        msg = "Scanning port {}".format(arg)
+        msg = "Port {}".format(arg)
     print("{}\n".format(cus(255, 255, 255, msg)))
