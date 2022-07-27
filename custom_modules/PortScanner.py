@@ -90,7 +90,7 @@ def check_port(
         prog_start(title, target, asterisk, underscore)
 
         if _port_range:
-            action = cmsg(170, 255, 150, "Scanning ports {}-{}".format(sport, eport))
+            scan_action((sport, eport))
 
             for port in range(sport, eport):
                 cus = cms["custom"]
@@ -110,6 +110,7 @@ def check_port(
                     print("{}\n".format(cmsg))
         else:
             if sport:
+                scan_action(sport)
                 cus = cms["custom"]
                 msg = "Checking port {}".format(sport)
                 cmsg = cus(222, 222, 222, msg)
@@ -161,4 +162,13 @@ def prog_start(title, target, asterisk, underscore):
 
 
 def scan_action(arg):
-    print("{}".format(arg))
+    cus = cms["custom"]
+    msg = None
+
+    if "<class 'tuple'>" == str(type(arg)) or "<class 'list'>" == str(type(arg)):
+        sport = arg[0]
+        eport = arg[1]
+        msg = "Scanning ports {}-{}".format(sport, eport)
+    else:
+        msg = "Scanning port {}".format(arg)
+    print("{}\n".format(cus(255, 255, 255, msg)))
